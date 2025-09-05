@@ -1,8 +1,8 @@
 import { ApolloServer, gql } from 'apollo-server';
-import { Product } from "./model/impl/Product";
-import { MegaSena } from "./model/MegaSena";
-import { ProductList } from "./model/ProductList";
-import { UserType } from "./model/User";
+import { Product } from "./domain/Product/impl/Product";
+import { MegaSena } from "./domain/User/MegaSena";
+import { ProductList } from "./domain/Product/ProductList";
+import { UserType } from "./domain/User/interfaces/UserType";
 
 const product = new Product("Shampoo", 39.99, 15);
 const product2 = new Product("sabonete", 4.99, 15);
@@ -59,10 +59,10 @@ const resolvers = {
 
     User: {
         salary(user: UserType) {
-            return user.salary_real;
+            return user.salary;
         },
         email(user: UserType) {
-            return user.email_user;
+            return user.email;
         }
     },
 
@@ -94,11 +94,10 @@ const resolvers = {
             return {
                 id: 1,
                 name: "Ana da Silva!",
-                email_user: "ana@test.com",
+                email: "ana@test.com",
                 age: 23,
-                salary_real: 3000.05,
+                salary: 3000.05,
                 vip: true
-
             }
         },
 
