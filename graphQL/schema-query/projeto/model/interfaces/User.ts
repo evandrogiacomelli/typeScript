@@ -1,17 +1,13 @@
 export interface UserInterface {
-    id: number;
-    name: string;
-    email: string;
-    age?: number;
-    salary?: number;
-    vip?: boolean;
-}
-
-export interface UserType {
-    id: number;
-    name: string;
-    email_user: string;
-    age: number;
-    salary_real: number;
-    vip: boolean;
+    getId(): number;
+    getName(): string;
+    setName(name: string): void;
+    getEmail(): string;
+    setEmail(email: string): void;
+    getAge(): number | undefined;
+    setAge(age: number): void;
+    getSalary(): number | undefined;
+    setSalary(salary: number): void;
+    getVip(): boolean;
+    setVip(vip: boolean): void;
 }

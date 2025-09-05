@@ -1,12 +1,12 @@
 import { UserInterface } from '../interfaces/User';
 
 export class User implements UserInterface {
-    id: number;
-    name: string;
-    email: string;
-    age?: number;
-    salary?: number;
-    vip: boolean;
+    private id: number;
+    private name: string;
+    private email: string;
+    private age?: number;
+    private salary?: number;
+    private vip: boolean;
 
     constructor(id: number, name: string, email: string, age?: number, salary?: number) {
         this.id = id;
