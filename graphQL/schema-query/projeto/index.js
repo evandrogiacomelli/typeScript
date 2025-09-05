@@ -1,11 +1,30 @@
 const { ApolloServer, gql } = require('apollo-server');
-const { Product } = require("./model/Produto")
+const { Product } = require("./model/Product");
+const { MegaSena } = require("./model/MegaSena");
+const { ProductList } = require("./model/ProductList");
 
 const product = new Product("Shampoo", 39.99, 15);
+const product2 = new Product("Shampoo", 39.99, 15);
+const product3 = new Product("Shampoo", 39.99, 15);
+
+const productList = new ProductList("Prduct List");
+
+productList.addProduct(product);
+productList.addProduct(product2);
+productList.addProduct(product3);
+
+const megaSena = new MegaSena();
 
 const typeDefs = gql`
     scalar Date
+
+    type ProductList {
+        list: [Product]
+    }
     
+    type MegaSena {
+        numbers: [Int]
+    }
 
     type Product {
         name: String
@@ -29,6 +48,8 @@ const typeDefs = gql`
         data: Date!
         userLogin: User
         productFind: Product
+        megaSena: MegaSena
+        productList: ProductList
     }
 `;
 
@@ -45,7 +66,16 @@ const resolvers = {
 
     Product: {
         name(product) {
-            return product.name;
+            return product.getName();
+        },
+        price(product) {
+            return product.getPrice();
+        },
+        priceWithDiscount(product) {
+            return product.getPriceWithDiscount();
+        },
+        offer(product) {
+            return product.getOffer();
         }
     },
 
@@ -53,9 +83,11 @@ const resolvers = {
         ola() {
             return "Bom dia";
         },
+
         data() {
             return `${ new Date }`;
         },
+
         userLogin() {
             return {
                 id: 1,
@@ -67,11 +99,24 @@ const resolvers = {
 
             }
         },
+
         productFind() {
             return {
                 name: product.getName(),
                 price: product.getPrice(),
                 priceWithDiscount: product.getPriceWithDiscount()
+            }
+        },
+
+        megaSena() {
+            return {
+                numbers: megaSena.getNumbers()
+            }
+        },
+
+        productList() {
+            return { 
+                list: productList.getProducts()
             }
         }
     }
