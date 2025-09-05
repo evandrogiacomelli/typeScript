@@ -1,11 +1,12 @@
-const { ApolloServer, gql } = require('apollo-server');
-const { Product } = require("./model/Product");
-const { MegaSena } = require("./model/MegaSena");
-const { ProductList } = require("./model/ProductList");
+import { ApolloServer, gql } from 'apollo-server';
+import { Product } from "./model/impl/Product";
+import { MegaSena } from "./model/MegaSena";
+import { ProductList } from "./model/ProductList";
+import { UserType } from "./model/User";
 
 const product = new Product("Shampoo", 39.99, 15);
-const product2 = new Product("Shampoo", 39.99, 15);
-const product3 = new Product("Shampoo", 39.99, 15);
+const product2 = new Product("sabonete", 4.99, 15);
+const product3 = new Product("desodorante", 12.99, 15);
 
 const productList = new ProductList("Prduct List");
 
@@ -53,42 +54,43 @@ const typeDefs = gql`
     }
 `;
 
+
 const resolvers = {
 
     User: {
-        salary(user) {
+        salary(user: UserType) {
             return user.salary_real;
         },
-        email(user) {
+        email(user: UserType) {
             return user.email_user;
         }
     },
 
     Product: {
-        name(product) {
+        name(product: Product) {
             return product.getName();
         },
-        price(product) {
+        price(product: Product) {
             return product.getPrice();
         },
-        priceWithDiscount(product) {
+        priceWithDiscount(product: Product) {
             return product.getPriceWithDiscount();
         },
-        offer(product) {
+        offer(product: Product) {
             return product.getOffer();
         }
     },
 
     Query: {
-        ola() {
+        ola(): string {
             return "Bom dia";
         },
 
-        data() {
+        data(): string {
             return `${ new Date }`;
         },
 
-        userLogin() {
+        userLogin(): UserType {
             return {
                 id: 1,
                 name: "Ana da Silva!",
@@ -100,12 +102,8 @@ const resolvers = {
             }
         },
 
-        productFind() {
-            return {
-                name: product.getName(),
-                price: product.getPrice(),
-                priceWithDiscount: product.getPriceWithDiscount()
-            }
+        productFind(): Product {
+            return product
         },
 
         megaSena() {
